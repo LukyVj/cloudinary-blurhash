@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "cloudinary": "^1.23.0",
+    "dotenv": "^8.2.0",
+    "fs": "^0.0.1-security",
+    "node-fetch": "^2.6.1"
+  }
+}
