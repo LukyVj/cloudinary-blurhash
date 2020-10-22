@@ -60,6 +60,8 @@ the `/transform` endpoint will respond with:
 
 Learn more about [BlurHash](https://blurha.sh)
 
+Test your BlurHash in our online playground: https://blurhash-sandbox.surge.sh/
+
 ### Credits
 
 This project uses the [Cloudinary](https://cloudinary.com) NodeJS [SDK](https://github.com/cloudinary/cloudinary_npm) and [BlurHash (TypeScript)](https://github.com/woltapp/blurhash/tree/master/TypeScript).
