@@ -25,6 +25,13 @@ Once you've got your `.env` ready, open two terminals:
 - 1️⃣ Start the server: `yarn server`
 - 2️⃣ Start the fetch `yarn start`
 
+# SERVER
+
+The server can make two things.
+
+- [Live computing](): It can compute the images directly and return the corresponding blurhash.
+- [Get Cloudinary Context](): It can use the Cloudinary API to return image contexts.
+
 ## Informations
 
 ### BlurHash?
