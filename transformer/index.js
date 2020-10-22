@@ -1,13 +1,17 @@
 const express = require("../node_modules/express");
-
-// var cors = require("cors");
+const cloudinary = require("cloudinary");
 const { encode } = require("../node_modules/blurhash");
 const { createCanvas, loadImage } = require("../node_modules/canvas");
+require("dotenv").config();
 const app = express();
 
-require("../node_modules/dotenv").config();
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CONTEXT_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_CONTEXT_API_KEY,
+  api_secret: process.env.CLOUDINARY_CONTEXT_API_SECRET,
+});
 
-// app.use(cors());
+require("../node_modules/dotenv").config();
 
 const getImageData = (image) => {
   const canvas = createCanvas(image.width, image.height);
@@ -28,13 +32,46 @@ const encodeImageToBlurhash = async (imageUrl, res, start) => {
   });
 };
 
-app.get("/", async (req, res, next) => {
+app.get("/transform", async (req, res, next) => {
   console.log(`Request ➡️ ${req.originalUrl}`);
   req.setTimeout(2147483647);
   var start = Date.now();
 
   try {
     await encodeImageToBlurhash(req.originalUrl.split("/?q=")[1], res, start);
+  } catch (err) {
+    next(err);
+  }
+
+  if (req.method === "OPTIONS") {
+    res.header("Access-Control-Allow-Methods", "PUT, POST, PATCH, DELETE, GET");
+    return res.status(200).json({});
+  }
+});
+
+app.get("/context", async (req, res, next) => {
+  console.log(`Request ➡️ ${req.originalUrl}`);
+  req.setTimeout(2147483647);
+  var start = Date.now();
+
+  try {
+    cloudinary.v2.search
+      .expression("")
+      .max_results(1000)
+      .execute()
+      .then(async (result) => {
+        const url = req.originalUrl.split("/?q=")[1];
+        result.resources.find((item) => {
+          if (item.secure_url === url || item.url === url) {
+            cloudinary.v2.api
+              .resource(item.public_id)
+              .then((data) => {
+                res.json(data.context.custom.blur_hash);
+              })
+              .catch((err) => console.log(err));
+          }
+        });
+      });
   } catch (err) {
     next(err);
   }
