@@ -11,7 +11,7 @@
     "node-fetch": "^2.6.1"
   },
   "scripts": {
-    "start": "node index.js",
+    "start": "node map.js",
     "server": "node transformer/index.js"
   }
 }
