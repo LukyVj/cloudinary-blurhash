@@ -1,7 +1,7 @@
-const express = require("../node_modules/express");
+const express = require("express");
 const cloudinary = require("cloudinary");
-const { encode } = require("../node_modules/blurhash");
-const { createCanvas, loadImage } = require("../node_modules/canvas");
+const { encode } = require("blurhash");
+const { createCanvas, loadImage } = require("canvas");
 require("dotenv").config();
 const app = express();
 
@@ -10,8 +10,6 @@ cloudinary.config({
   api_key: process.env.CLOUDINARY_CONTEXT_API_KEY,
   api_secret: process.env.CLOUDINARY_CONTEXT_API_SECRET,
 });
-
-require("../node_modules/dotenv").config();
 
 const getImageData = (image) => {
   const canvas = createCanvas(image.width, image.height);
